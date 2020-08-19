@@ -10,13 +10,14 @@ class ConvNet(nn.Module):
     Conv-bn-relu -Conv-bn-relu -MaxPool
     '''
 
-    def __init__(self, ctype, filters=None, flat_nodes=None, kernel_size=5, stride=1):
+    def __init__(self, ctype, in_channels=6, filters=None, flat_nodes=None, kernel_size=5, stride=1):
         super(ConvNet, self).__init__()
 
         if filters is None:
             filters = [16, 32, 64, 128]
 
         self.ctype = ctype
+        self.in_channels = in_channels
         self.kernel_size = kernel_size
         self.stride = stride
         self.filters = filters
@@ -39,7 +40,7 @@ class ConvNet(nn.Module):
 
 
         self.layer1 = nn.Sequential(
-            nn.Conv2d(6, self.filters[0], kernel_size=7, stride=2),
+            nn.Conv2d(self.in_channels, self.filters[0], kernel_size=7, stride=2),
             nn.BatchNorm2d(self.filters[0]),
             nn.ReLU(),
             nn.Dropout(.2),
